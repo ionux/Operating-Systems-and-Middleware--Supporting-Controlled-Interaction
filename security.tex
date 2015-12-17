@@ -432,8 +432,8 @@ spoofer could have installed software that runs without Windows.  To defend
 against that, you would need to use physical security, which is
 important for other reasons anyhow.
 
-Another style of spoofing has become more problematic lately.  A web
-site may be set up to look like a password-protected site, but really
+Another style of spoofing has become more problematic lately.  A
+website may be set up to look like a password-protected site, but really
 be in the business of capturing the passwords.  Users can be directed
 to the fake site using sophisticated network manipulations, but more
 commonly they are simply tricked into accessing it using a misleading
@@ -447,8 +447,8 @@ protocol used for encrypted web communication allows your browser to
 verify the identity of the web server by using a public-key
 certificate.  Spoofing is made much less likely if you type your
 password in only to web pages that have authenticated themselves in this
-way.  Unfortunately, some web site designers are conditioning users to
-ignore this principle.  These web sites use non-SSL connections to
+way.  Unfortunately, some website designers are conditioning users to
+ignore this principle.  These websites use non-SSL connections to
 display the form into which users type their passwords.  The form then
 submits the information back using SSL.  The designers probably think
 all is well, because the actual password transmission is
@@ -1560,16 +1560,19 @@ checked.  Under what sorts of circumstances would this increase in
 work factor be sufficient?
 
 \item
-
-On a Linux system, you can read cryptographically-strong random bytes
-from {\tt /dev/random} and can generally read a list of words (one
-per line) from a file such as {\tt /usr/share/dict/words}.
-Other systems are likely to have similar information available.  Write
+Most programming environments provide some means of generating
+cryptographically-strong (pseudo-)random numbers. For example,
+in Java you can use the class \texttt{java.security.SecureRandom}.
+Many systems also contain a file that lists English words, one per line;
+for example, many Linux systems have this as {\tt /usr/share/dict/words}.
+If your system doesn't have such a file, you can find one to download on
+the web.
+Write
 a program that randomly chooses four words, each of which is four
 letters long, and prints them
 out with hyphens between them to serve as a passphrase.  For
-example, you might get the output {\tt mean-chef-pour-pubs}.  On the
-Linux distribution on my computer, there are 2236 four-letter
+example, you might get the output {\tt mean-chef-pour-pubs}.  On one
+example Linux distribution, the word list contained 2236 four-letter
 words.  How many four-word passphrases can be formed from them?  How
 long would a random string of lowercase letters need to be to have a
 comparable number of possibilities?  Which seems to be more memorizable?
@@ -1594,8 +1597,9 @@ Nonetheless, are there any lessons you can draw, both for designers of authentic
 for users?
 
 \item
-The website \textit{\url{http://www.sans.org}} contains a list of top-twenty vulnerabilities.  Look at the information
-given on how to remedy each problem.  How many of these correspond to
+The website \textit{\url{http://www.sans.org}} contains a list of twenty
+``Critical Security Controls.''
+How many of these correspond to
 the best practices listed in this chapter?
 
 \item
@@ -1617,7 +1621,7 @@ program's design reflects several of the principles explained
 in this chapter.
 
 \item
-Check the web sites of a variety of banks to see whether they have login forms available through http (non-SSL) URLs, rather than only https (SSL-encrypted) ones.  Document your findings using screen captures.
+Check the websites of a variety of banks to see whether they have login forms available through http (non-SSL) URLs, rather than only https (SSL-encrypted) ones.  Document your findings using screen captures.
 
 \item
 Find several commercially available biometric systems.  For each one, indicate whether it provides identification or only authentication.

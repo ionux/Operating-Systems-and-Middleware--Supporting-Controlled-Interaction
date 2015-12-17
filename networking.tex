@@ -311,7 +311,7 @@ using a new application protocol with its associated port number.
 Traffic on the new port number might well be blocked as it traverses
 the Internet.
 
-This helps explain a popular use of web services, which I explain in
+This helps explain a popular use of web services, which I mention in
 Chapter~\ref{distmid-chapter}.  This form of communications middleware
 is often configured to package application programs' messages into
 web traffic, in effect layering yet another protocol on top of
@@ -1291,7 +1291,7 @@ Among the other header fields I will not discuss are some that support
 optional extensions to the basic protocol.
 
 The next-generation protocol, IPv6, differs from the currently dominant
-IPv4 in two principle ways.  First, the source and destination
+IPv4 in two principal ways.  First, the source and destination
 internet addresses are much larger, 128 bits instead of 32.  This
 should greatly ease assigning internet addresses to ubiquitous devices
 such as cell phones.  Second, IPv6 was designed to support security
@@ -1430,7 +1430,7 @@ texts.
 Like many people, I have a network within my home, which uses the
 Internet Protocol.  Moreover, from any of the computers on this
 network, I can open a TCP connection to any computer on the Internet.
-For example, I can browse any web site.  However, my home network is not
+For example, I can browse any website.  However, my home network is not
 a constituent network of the Internet.  This situation, which is actually quite typical
 for home networks, results from my use of \vocab{Network Address
 Translation} (\vocab{NAT}) within the router that connects my home
@@ -1546,7 +1546,7 @@ working around this difficulty has recently been developed, but it
 does at least introduce additional complexity.
 
 Despite these problems, NAT routing is heavily used and becomes more
-so every day.  The principle reason is that internet addresses are
+so every day.  The principal reason is that internet addresses are
 expensive and so are worth sharing.  The negative consequences are
 ameliorated by the fact that most network administrators would prefer to
 put most internal computers off limits to external access anyhow, for
@@ -1710,7 +1710,7 @@ exactly that.  To take another example, there is no reason why web
 browsers and web servers need to directly send HTTP messages over
 vulnerable TCP connections.  Instead, they can interpose a layer of
 encryption known as the \vocab{Secure Sockets Layer} (\vocab{SSL}).
-Every time you visit a secure web site and see the padlock icon click
+Every time you visit a secure website and see the padlock icon click
 shut, it means that SSL is in use.  Conceptually this is between the
 main HTTP application layer and the TCP transport layer, but strictly
 speaking it is an application-layer protocol.
@@ -1844,7 +1844,7 @@ sending some clever, over-long message to the server's normal port
 ``own'' the server, executing arbitrary code.
 Depending on the access controls in place on the server,
 the attacker
-may be able to deface the web site, replacing the organization's web pages with
+may be able to deface the website, replacing the organization's web pages with
 others.  However, the attacker cannot mount any attack from the server
 to other machines, whether on the internal network or the external,
 because the firewall prohibits any outbound connections from the
@@ -2164,7 +2164,7 @@ do you find that were not mentioned in my description?
 \label{dns-exploration-ethereal}
 Use the freely available network packet capture and analysis tool
 named \verb|wireshark| to study DNS.  Capture packets while you are
-accessing a web site you have not previously accessed.  Look at just
+accessing a website you have not previously accessed.  Look at just
 the DNS packets and for each one expand out the DNS portion of the
 display.  In what regards do you see confirmation of my description of
 DNS?  What aspects of the DNS do you find that were not mentioned in
@@ -2213,10 +2213,10 @@ Explore some of the resources and sample policies on
 find.
 
 \item
-Read the paper by Pang et al.\ on ``Characteristics of
-Internet Background Radiation,'' which you can find on the web.  Write
+In 2004, Pang et al.\ published a description of the ``Characteristics of
+Internet Background Radiation.'' In 2010, Wustrow et al.\ updated this with ``Internet Background Radiation Revisited,'' and in 2014, Durumeric et al.\ provided another update with ``An Internet-Wide View of Internet-Wide Scanning.''
+Read one or more of these, all of which are available on the web.  Write
 a summary no longer than one page.
-
 \item
 In comparing CIFS and NFS, I remark that ``a stateless design [such as NFS] cannot readily support file locking or keeping client-side file caches up to date.''  Find out what is hiding behind the word ``readily.''  Does NFS provide any support for these services?  If so, how?
 
@@ -2242,5 +2242,5 @@ FreeBSD~\cite{max1153} or Linux~\cite{max1154} implementations.
 Regarding the frequency of firewall misconfiguration, see the study by \index{Wool, Avishai}Wool~\cite{max1146}.
 One area of research I mentioned is the use of erasure coding for
 forward error correction; see, for example, the paper by \index{Byers, J. W.}Byers, \index{Luby, M.}Luby,
-and \index{Mitzenmacher, M. }Mizenmacher~\cite{max1155}.  The paper by \index{Pang, Ruoming}Pang et al.\ that
-serves as the basis for an exploration project is reference~\cite{max1156}.
+and \index{Mitzenmacher, M. }Mizenmacher~\cite{max1155}.  An exploration project is based on papers  by \index{Pang, Ruoming}Pang et al.~\cite{max1156},
+\index{Wustrow, Eric}Wustrow et al.~\cite{Wustrow:2010:IBR:1879141.1879149}, and \index{Durumeric, Zakir}Durumeric et al.~\cite{184493}.

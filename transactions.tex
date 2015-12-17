@@ -521,7 +521,7 @@ originated in proprietary UNIX systems: JFS was developed by IBM for
 AIX, and XFS was developed by SGI for IRIX.)  File systems that are
 not journaled need to use other techniques, which I describe in
 Section~\ref{metadata-integrity-section}, to maintain the consistency of
-of their data structures.
+their data structures.
 
 File systems provide a more primitive form of data storage and access
 than database systems.  As you will see in Chapter~\ref{persistence-chapter}, contemporary
@@ -680,7 +680,7 @@ aborts and does some extra writes at that time to undo the effect of
 earlier writes (as you will see in Section~\ref{failure-atomicity-subsection}),
 those undo writes must be explicitly listed in the history.  Note
 also that I am implicitly assuming the transactions have no effects
-other than on storage; in particular, they don't do any I/O.
+other than on storage; in particular, they don't do any other I/O.
 
 Let's look at some examples.  Suppose that $x$ and $y$ are two
 variables that are initially both equal to 5.
@@ -1719,7 +1719,7 @@ One final pitfall for unwary programmers, with possible security
 implications, is that a transaction manager can provide atomicity only 
 for those actions under its control.  For example, throughout this
 chapter, I have assumed that
-transactions don't do any I/O.  Mature, full-featured transaction
+transactions don't do any I/O aside from using storage devices.  Mature, full-featured transaction
 processing systems also allow controlled I/O from transactions.  Until
 a transaction commits, all its output is kept impounded.
 Only upon commit is the output actually produced.  (Some systems go so
@@ -1934,7 +1934,7 @@ read committed}.  Be sure to end your commands in each session with
 \item
 Carry out the same scenario as in the previous project using Oracle
 or PostgreSQL, with the {\tt transaction isolation level} set to
-{\tt serializable}.
+{\tt serializable}. As an optional extension, explore whether adding the keywords \texttt{for update} to the end of each \texttt{select} command makes any difference.
 \item
 Try the same scenario as in the previous project, using Microsoft SQL
 Server or IBM DB2, with the {\tt transaction isolation level} set to
@@ -2062,7 +2062,7 @@ Jim}Gray.  He seems to have first introduced it in a conference
 paper~\cite{max1051} and then reused it in his book with
 Reuter~\cite{max1009}.
 
-Transactions are also being increasingly used in multi-threaded
+Transactions are also being increasingly used in multithreaded
 programming as an alternative to the lock-based and lock-free
 synchronization approaches illustrated in the previous chapter.  In
 this context, the transactional objects are often as fine-grained as

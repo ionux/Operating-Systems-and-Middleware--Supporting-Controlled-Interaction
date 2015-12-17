@@ -1431,7 +1431,7 @@ public class BoundedBuffer {
 \caption{Alternative {\tt BoundedBuffer} class, using semaphores}
 \label{SemaphoreBoundedBuffer.java}
 \end{figure}
-This uses the a class of semaphores imported from one of the
+This uses the \texttt{Semaphore} class from one of the
 packages of the Java API, \texttt{java.util.concurrent}.
 In
 Programming Project~\ref{semaphore-project}, you can instead write your own {\tt Semaphore} class using Java's built-in mutexes and
@@ -1760,7 +1760,7 @@ different sessions connected to the same database.  One session is
 shown at the left margin, while the other session is shown indented
 four spaces.  Command lines start with the system's prompt,
 \texttt{SQL>}, and then contain a command typed by the user.  Each
-command line is broken on to a second line, to fit the width of this
+command line is broken into two lines, to fit the width of this
 book's pages.
 Explanatory comments start with \texttt{-{}-}.  All other lines are
 output.
@@ -1905,7 +1905,7 @@ Linux and Mac OS~X, for the readers/writers locks placed on files using
 deadlock detection is not a mandatory part of the POSIX specification
 for \verb|fcntl|.
 
-\section{The Interaction of Synchronization with Scheduling}\label{synchronization-and-scheduling-section}
+\section[Synchronization/Scheduling Interactions]{The Interaction of Synchronization with Scheduling}\label{synchronization-and-scheduling-section}
 
 Recall that the scheduler controls which runnable thread runs on each processor, and
 synchronization actions performed by the running thread control which
@@ -2195,7 +2195,7 @@ while it holds the \texttt{TicketVendor}'s lock, all other threads that want to 
 
 Recall that the spinlocks introduced in Section~\ref{mutex-mechanisms-section} use atomic exchange instructions.  A thread that succeeds in changing a lock from the unlocked state to the locked state is guaranteed that no other thread did the same.  The successful thread is thereby granted permission to make progress, for example by vending a ticket. However, actually making progress and then releasing the lock are separate actions, not part of the atomic exchange.  As such, they might be delayed.  A nonblocking version of the \texttt{TicketVendor} requires a more powerful atomic instruction that can package the actual updating of the \texttt{TicketVendor} with the obtaining of permission.
 
-The \index{compare-and-set}compare-and-set instruction meets this need by doing the following two things atomically:
+The \vocab{compare-and-set} instruction meets this need by doing the following two things atomically:
 \begin{enumerate}
 \item The instruction determines whether a variable contains a specified value and reports the answer.
 \item The instruction sets the variable to a new value, but only if the answer to the preceding question was ``yes.''
@@ -2211,7 +2211,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class LockFreeTicketVendor { 
     
   private static class State {
-    private int seatsRemaining, cashOnHand;
+    private final int seatsRemaining, cashOnHand;
     
     public State(int seatsRemaining, int cashOnHand) {
       this.seatsRemaining = seatsRemaining;
@@ -2222,8 +2222,8 @@ public class LockFreeTicketVendor {
     public int getCashOnHand(){return cashOnHand;}
   }
 
-  private AtomicReference<State> state;
-  private int startingSeats, startingCash;
+  private final AtomicReference<State> state;
+  private final int startingSeats, startingCash;
 
   public LockFreeTicketVendor(int startingSeats,
                               int startingCash) {
@@ -2299,9 +2299,12 @@ continue being sold---but one particular thread keeps retrying.
 Stronger forms of nonblocking synchronization, known as ``\foldvocab{wait-free}{synchronization},'' guarantee that each individual thread makes
 progress.  However, wait-free synchronization is considerably more
 complex than the style of lock-free synchronization shown here
-and hence is rarely used in practice.
+and hence is rarely used in practice. Improving the practicality of
+wait-free synchronization has remained an active research area. Enough
+progress has been made, particularly in the period 2011--2014, to suggest that
+wait-free synchronization's day may be coming.
 
-Similar techniques can be used to create lock-free data structures
+Compare-and-set techniques can also be used to create lock-free data structures
 that allow multiple threads to carry out operations concurrently, to
 the maximum extent possible. For example, if a queue is going to
 deliver data in a well-defined order, dequeue operations need to be
@@ -2725,10 +2728,15 @@ public class Philosopher extends Thread{
 \end{figure}
 \begin{enumerate}
 \item
-Try the program out.  Depending on how fast your system is, you may
-need to change the number 100000.  The program should initially print out
-messages, at a rate that is not overwhelmingly fast, but
-that keeps you aware the program is running.  With any luck, after a
+Try the program out.
+Assuming you are running on a non-ancient computer
+and hence have multiple processor cores, you likely
+won't see any output at all: the threads deadlock
+before any of the philosophers has dined 100000 times.
+If you dramatically reduce the number 100000, say to 100,
+you are likely to see the program initially print out
+some messages, enough to
+keep you aware the program is running, and then after a
 while, the messages should stop entirely.  This is your sign that the
 threads have deadlocked.  What is your experience?  Does the program
 deadlock on your system?  Does it do so consistently if you run the
@@ -2737,7 +2745,31 @@ variability) and the circumstances under which you observed it.  If
 you have more than one system available that runs Java, you might want
 to compare them.
 \item
-You can guarantee the program won't deadlock by making one of the
+Optionally, you could try limiting the program to run on only one core. It will likely
+take much longer to deadlock because the threads are interleaved
+only at the coarse granularity of the scheduler's thread switching, rather than the
+fine granularity of the hardware's instruction execution.
+If you are using Linux,
+Exploration
+Project~\ref{threads-FIFO-project} on page~\pageref{threads-FIFO-project}
+explains how you can limit the program to a single core.
+If you are using Windows you can achieve a similar result using
+the \texttt{start} command with the \texttt{/affinity} flag; details
+are available on the web. For OS X, the only option unless you
+have installed the developer tools is to reboot the entire system
+with just one cpu enabled. You can do that by giving the following command
+before rebooting:
+\begin{verbatim}
+sudo nvram boot-args="cpus=1"
+\end{verbatim}
+To return to normal operation, give the command
+\begin{verbatim}
+sudo nvram boot-args=""
+\end{verbatim}
+and reboot again.
+\item
+You can guarantee the program won't deadlock (even on multiple cores)
+by making one of the
 threads (such as number 0) acquire its right fork before its left fork.
 Explain why this prevents deadlock, and try it out.
 Does the program now continue printing messages as long as you let it
@@ -2867,6 +2899,8 @@ eat, without the neighboring philosophers taking multiple turns first.
 The textbook by \index{Herlihy, Maurice}Herlihy and \index{Shavit, Nir}Shavit~\cite{max1202} is a good starting point for learning about nonblocking synchronization.
 
 The lock-free ticket vendor example relies crucially on Java's garbage collector (automatic memory management) so that each time an update is performed, a new \texttt{State} object can be created and there are no problems caused by reusing old objects.  Without garbage collection, safe memory reclamation for lock-free objects is considerably more interesting, as shown by \index{Michael, Maged M.}Michael~\cite{max1203}.
+
+One example of wait-free synchronization becoming more practical is the series of papers by \index{Kogan, Alex}Kogan and \index{Petrank, Erez}Petrank~\cite{Kogan:2011:WQM:1941553.1941585,Kogan:2012:MCF:2145816.2145835} and \index{Timnat, Shahar}Timnat and \index{Petrank, Erez}Petrank \cite{Timnat:2014:PWS:2555243.2555261}.
 
 The \index{TOCTTOU}\index{Time Of Check To Time Of Use}TOCTTOU race vulnerability in Sun's mail delivery software was
 reported in 1992 by a group known as \index{eight lgm@[8lgm]}[8lgm].  Their site,
